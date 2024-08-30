@@ -4,78 +4,46 @@ import item as it
 
 
 character_classes = {
-    "Warrior": {" max health": 150, "current health": 150, "max mana": 100, "current mana": 100, 
-    "defense": 30, "endurance": 15,  "strength": 20, "dexterity": 10, "agility": 10, 
-    "intelligence": 5, "faith": 5, "luck": 10, "resistance": 15, "charisma": 8, "wisdom": 2,
-    "magic": 3, "stealth": 0, "pce": 8, "morality": 100, "sanity": 100, "willpower": 3,
-    "alchemy": 0, "beast mastery": 0, "crafting": 1, "armor class": 2, "weapon efficency": 2,
-    "parry efficency": 1, "lpis": 3, "critical damage multiplier": 2, "skill efficency multiplier": 2},
+    "Warrior": {"max_health": 350, "current_health": 350, "max_mana": 80, "current_mana": 80,
+                "level": 1, "strength": 23, "dexterity": 10, "endurance": 20, "agility": 3, "intelligence": 0, 
+                "faith": 5, "luck": 10, "willpower": 3},
     
-    "Samurai": {" max health": 150, "current health": 150, "max mana": 100, "current mana": 100, 
-    "defense": 25, "endurance": 20,  "strength": 20, "dexterity": 15, "agility": 15, 
-    "intelligence": 5, "faith": 5, "luck": 15, "resistance": 15, "charisma": 8, "wisdom": 10,
-    "magic": 3, "stealth": 20, "pce": 18, "morality": 110, "sanity": 100, "willpower": 3,
-    "alchemy": 0, "beast mastery": 0, "crafting": 2, "armor class": 2, "weapon efficency": 5,
-    "parry efficency": 2, "lpis": 5, "critical damage multiplier": 3, "skill efficency multiplier": 3},
+    "Samurai": {"max_health": 200, "current_health": 200, "max_mana": 100, "current_mana": 100, 
+                "level": 1, "strength": 12, "dexterity": 20, "endurance": 15, "agility": 12, "intelligence": 0, 
+                "faith": 15, "luck": 13, "willpower": 3},
     
-    "Rogue": {" max health": 100, "current health": 100, "max mana": 115, "current mana": 115, 
-    "defense": 10, "endurance": 15,  "strength": 10, "dexterity": 30, "agility": 20, 
-    "intelligence": 5, "faith": 5, "luck": 20, "resistance": 15, "charisma": 8, "wisdom": 2,
-    "magic": 3, "stealth": 0, "pce": 8, "morality": 100, "sanity": 100, "willpower": 3,
-    "alchemy": 0, "beast mastery": 1, "crafting": 4, "armor class": 1, "weapon efficency": 3,
-    "parry efficency": 5, "lpis": 6, "critical damage multiplier": 4, "skill efficency multiplier": 4},
+    "Rogue": {"max_health": 90, "current_health": 90, "max_mana": 100, "current_mana": 100, 
+              "level": 1, "strength": 8, "dexterity": 24, "endurance": 8, "agility": 23, "intelligence": 0, 
+              "faith": 0, "luck": 22, "willpower": 3},
     
-    "Mage": {" max health": 80, "current health": 80, "max mana": 400, "current mana": 400, 
-    "defense": 0, "endurance": 1,  "strength": 8, "dexterity": 4, "agility": 13, 
-    "intelligence": 42, "faith": 15, "luck": 40, "resistance": 35, "charisma": -80, "wisdom": 32,
-    "magic": 33, "stealth": 0, "pce": 82, "morality": 100, "sanity": 50, "willpower": 3,
-    "alchemy": 3, "beast mastery": 2, "crafting": 3, "armor class": -1, "weapon efficency": 0,
-    "parry efficency": 0, "lpis": 300, "critical damage multiplier": 2, "skill efficency multiplier": 2.,},
+    "Mage": {"max_health": 80, "current_health": 80, "max_mana": 100, "current_mana": 100, 
+             "level": 1,"strength": 20, "dexterity": 10, "endurance": 15, "agility": 10, "intelligence": 5, 
+             "faith": 5, "luck": 10, "willpower": 5},
     
-    "Archer": {" max health": 120, "current health": 120, "max mana": 120, "current mana": 120, 
-    "defense": 5, "endurance": 15,  "strength": 8, "dexterity": 40, "agility": 15, 
-    "intelligence": 5, "faith": 5, "luck": 40, "resistance": 15, "charisma": 8, "wisdom": 2,
-    "magic": 3, "stealth": 0, "pce": 38, "morality": 100, "sanity": 100, "willpower": 3,
-    "alchemy": 0, "beast mastery": 1, "crafting": 1, "armor class": 0, "weapon efficency": 8,
-    "parry efficency": 0, "lpis": 53, "critical damage multiplier": 2, "skill efficency multiplier": 2},
+    "Archer": {"max_health": 120, "current_health": 120, "max_mana": 120, "current_mana": 120, 
+               "level": 1, "strength": 5, "dexterity": 20, "endurance": 16, "agility": 20, "intelligence": 9, 
+               "faith": 8, "luck": 22, "willpower": 3},
     
-    "Condemed": {" max health": 50, "current health": 1500, "max mana": 100, "current mana": 100, 
-    "defense": 10, "endurance": 25,  "strength": 10, "dexterity": 10, "agility": 30, 
-    "intelligence": 15, "faith": 15, "luck": 30, "resistance": 25, "charisma": 18, "wisdom": 12,
-    "magic": 12, "stealth": 0, "pce": 10, "morality": 10, "sanity": 50, "willpower": 3,
-    "alchemy": 1, "beast mastery": 0, "crafting": 1, "armor class": 1, "weapon efficency": 3,
-    "parry efficency": 1, "lpis": 12, "critical damage multiplier": 2, "skill efficency multiplier": 2},
+    "Condemed": {"max_health": 250, "current_health": 250,  "max_mana": 100, "current_mana": 100, 
+                 "level": 1, "strength": 20, "dexterity": 10, "endurance": 15, "agility": 10, "intelligence": 5, 
+                 "faith": 5, "luck": 10, "willpower": 3,},
     
-    "Martial Artist": {" max health": 300, "current health": 300, "max mana": 250, "current mana": 250, 
-    "defense": 40, "endurance": 25,  "strength": 60, "dexterity": 30, "agility": 50, 
-    "intelligence": 15, "faith": 15, "luck": 20, "resistance": 25, "charisma": 80, "wisdom": 20,
-    "magic": 6, "stealth": 10, "pce": 108, "morality": 200, "sanity": 200, "willpower": 3,
-    "alchemy": 0, "beast mastery": 0, "crafting": 2, "armor class": 1, "weapon efficency": 3,
-    "parry efficency": 0, "lpis": 30, "critical damage multiplier": 2, "skill efficency multiplier": 3},
+    "Martial Artist": {"max_health": 250, "current_health": 250, "max_mana": 150, "current_mana": 150, 
+                       "level": 1, "strength": 22, "dexterity": 20, "endurance": 5, "agility": 20, "intelligence": 5, 
+                       "faith": 15, "luck": 10, "willpower": 3},
 
-    "Paladin": {" max health": 425, "current health": 425, "max mana": 250, "current mana": 250, 
-    "defense": 80, "endurance": 60,  "strength": 60, "dexterity": 61, "agility": 10, 
-    "intelligence": 20, "faith": 500, "luck": 0, "resistance": 50, "charisma": 50, "wisdom": 50,
-    "magic": 50, "stealth": 0, "pce": 999, "morality": 9999, "sanity": 1100, "willpower": 8,
-    "alchemy": 3, "beast mastery": 2, "crafting": 6, "armor class": 10, "weapon efficency": 8,
-    "parry efficency": 0, "lpis": 99999, "critical damage multiplier": 2, "skill efficency multiplier": 10},
+    "Paladin": {"max_health": 400, "current_health": 400, "max_mana": 200, "current_mana": 200, 
+                "level": 1, "strength": 20, "dexterity": 12, "endurance": 19, "agility": 8, "intelligence": 5, 
+                "faith": 20, "luck": 9, "willpower": 3},
     
-    "John Darksoul": {" max health": 1, "current health": 1, "max mana": 0, "current mana": 0, 
-    "defense": 0, "endurance": 0,  "strength": 0, "dexterity": 1, "agility": 0, 
-    "intelligence": 0, "faith": 0, "luck": 0, "resistance": 0, "charisma": 0, "wisdom": 0,
-    "magic": 0, "stealth": 10, "pce": 999, "morality": -9999, "sanity": -100, "willpower": 0,
-    "alchemy": 0, "beast mastery": 0, "crafting": 0, "armor class": 0, "weapon efficency": 0,
-    "parry efficency": 0, "lpis": 99999, "critical damage multiplier": 10000, "skill efficency multiplier": -10},
-    
+    "John Darksoul": {"max_health": 1, "current_health": 1, "max_mana": 0, "current_mana": 0, 
+                      "level": 1, "strength": 0, "dexterity": 1, "endurance": 0, "agility": 0, "intelligence": -100, 
+                      "faith": -100, "luck": -100, "willpower": 1},
 }
 
-
-
 def create_character():
-    print("Welcome.")
-    # Get the character's name
+    print("Welcome to the character creator.")
     name = input("Enter your character's name: ")
-    # Choose a class
     print("Choose a class:")
     for idx, class_name in enumerate(character_classes.keys(), start=1):
         print(f"{idx}. {class_name}")
@@ -84,8 +52,17 @@ def create_character():
     if 1 <= class_choice <= len(character_classes):
         character_class = list(character_classes.keys())[class_choice - 1]
         attributes = character_classes[character_class]
-        player = pl.Character(name, character_class, **attributes, inventory=None, status_ailment=None)
+        
+        player = pl.Character(
+            name,
+            character_class,
+            **attributes,
+            inventory=None,
+            status_ailment=None
+        )
+
         give_starting_items(player)
+        player.display_stats()
         return player
     else:
         print("Invalid choice. Please restart the program and choose a valid class.")
@@ -94,35 +71,41 @@ def create_character():
 
 def give_starting_items(player):
     if player.character_class == "Warrior":
-        player.add_item(it.Item("GreatSword", "Melee Weapon", 10, 0, 0,))
-        player.add_item(it.Item("Shield", "Defense Weapon", 5, 0, 0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("GreatSword", "Greatsword", 60, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Rogue":
-        player.add_item(it.Item("Dagger", "Melee Weapon", 7, 0, 0,))
-        player.add_item(it.Item("Bow", "Ranged Weapon", 8, 0, 0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("Dagger", "Dagger", 7, "Bleed", 35))
+        player.add_item(it.Ranged_Weapon("Bow", "Bow", 8))
+        player.add_item(it.Ranged_Ammo("Arrow", 8, 99, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Mage":
-        player.add_item(it.Item("Dagger", "Melee Weapon", 7, 0, 0, ))
-        player.add_item(it.Item("Staff", "Magic Catalyst", 8, 0, 0,))
-        player.add_item(it.Item("Spellbook", "Magic", 10, 0, 10, "Energy"))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("Dagger", "Dagger", 7, "Bleed", 35))
+        player.add_item(it.Magic_Catalyst("Staff", 15))
+        player.add_item(it.Combat_Spell("Magic Dart", 10, 10, 15, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Samurai":
-        player.add_item(it.Item("Katana", "Melee Weapon", 8, 0, 0,))
-        player.add_item(it.Item("Bow", "Ranged Weapon", 4, 0, 0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("Katana", "Katana", 8, "Bleed", 40))
+        player.add_item(it.Ranged_Weapon("Bow", "Bow", 8))
+        player.add_item(it.Ranged_Ammo("Arrow", 8, 99, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Archer":
-        player.add_item(it.Item("Bow", "Ranged Weapon", 10, 0, 0,))
-        player.add_item(it.Item("Shield", "Defense Weapon", 5, 0, 0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Ranged_Weapon("Bow", "Ranged Weapon", 10, 0, 0, 1, None, 0))
+        player.add_item(it.Ranged_Ammo("Arrow", 8, 99, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Condemed":
-        player.add_item(it.Item("Shield", "Defense Weapon", 5, 0, 0,))
-        player.add_item(it.Item("Shackle", "Melee Weapon", 15, 0, 0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("Shackle", "whip", 15, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "Martial Artist":
-        player.add_item(it.Item("Bandages", "Melee Weapon", 2, 0,0,))
-        player.add_item(it.Item("Health Potion", "Healing Item", 0, 50, 0,))
+        player.add_item(it.Melee_Weapon("Bandages", "Gauntlet", 2, None, 0))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
+    elif player.character_class == "Paladin":
+        player.add_item(it.Melee_Weapon("Holy GreatSword", "Greatsword", 20, "Blessed", 35))
+        player.add_item(it.Prayer_Catalyst("Cross", 15))
+        player.add_item(it.Healing_Prayers("Heal", 80, 20, 15))
+        player.add_item(it.Combat_Prayers("Lightning Shot", 60, 20, 15, "Shocked", 50))
+        player.add_item(it.Healing_Items("Health Potion", 50, 3))
     elif player.character_class == "John Darksoul":
-        print("nuh uh")
+        print("idk")
 
 def remove_item_from_inventory(player):
     item_name = input("Enter the name of the item you want to remove: ")
