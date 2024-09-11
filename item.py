@@ -1,13 +1,13 @@
 import player as pl
+import battle as bt
 class Melee_Weapon:
-    def __init__(self, item_name, item_type, damage_value, status_effect, status_amount):
+    def __init__(self, item_name, item_type, damage_value):
         self.name = item_name
         self.item_type = item_type
         self.damage_value = damage_value
-        self.status_effect = status_effect
-        self.status_amount = status_amount
+        self.status_effect = bt.Ailments.Item_Ailments
     def __str__(self):
-        return f"{self.name} ({self.item_type}, Damage Value: {self.damage_value}, Status Effect: {self.status_effect}, Effect Amount: {self.status_amount})"
+        return f"{self.name} ({self.item_type}, Damage Value: {self.damage_value}, Status Effect: {self.status_effect})"
 
 
 class Ranged_Weapon:
@@ -19,14 +19,13 @@ class Ranged_Weapon:
         return f"{self.name} ({self.item_type}, Damage Value: {self.damage_value})"
 
 class Ranged_Ammo:
-    def __init__(self, item_name, damage_value, amount, status_effect, status_amount):
+    def __init__(self, item_name, damage_value, amount):
         self.name = item_name
         self.damage_value = damage_value
         self.amount = amount
-        self.status_effect = status_effect
-        self.status_amount = status_amount
+        self.status_effect = bt.Ailments.Item_Ailments
     def __str__(self):
-        return f"{self.name} (Damage Value: {self.damage_value}, Total amount: {self.amount}, Status Effect: {self.status_effect}, Effect Amount: {self.status_amount}"
+        return f"{self.name} (Damage Value: {self.damage_value}, Total amount: {self.amount}, Status Effect: {self.status_effect}"
 
 class Magic_Catalyst:
     def __init__(self, item_name, intelligence_requirement):
@@ -36,15 +35,14 @@ class Magic_Catalyst:
         return f"{self.name}"
 
 class Combat_Spell:
-    def __init__(self, item_name, damage_value, mana_cost, status_effect, status_amount, intelligence_requirement):
+    def __init__(self, item_name, damage_value, mana_cost, intelligence_requirement):
         self.name = item_name
         self.damage_value = damage_value
         self.mana_cost = mana_cost
         self.intelligence_requirement = intelligence_requirement
-        self.status_effect = status_effect
-        self.status_amount = status_amount
+        self.status_effect = bt.Ailments.Item_Ailments
     def __str__(self):
-        return f"{self.name} (Damage Value: {self.damage_value}, Mana Cost: {self.mana_cost}, Status Effect: {self.status_effect}, Effect Amount: {self.status_amount}"
+        return f"{self.name} (Damage Value: {self.damage_value}, Mana Cost: {self.mana_cost}, Status Effect: {self.status_effect}"
 
 class Prayer_Catalyst:
     def __init__(self, item_name, faith_requirement):
@@ -54,15 +52,14 @@ class Prayer_Catalyst:
         return f"{self.name}"
 
 class Combat_Prayers:
-    def __init__(self, item_name, damage_value, mana_cost, status_effect, status_amount, faith_requirement):
+    def __init__(self, item_name, damage_value, mana_cost, faith_requirement):
         self.name = item_name
         self.damage_value = damage_value
         self.mana_cost = mana_cost
         self.faith_requirement = faith_requirement
-        self.status_effect = status_effect
-        self.status_amount = status_amount
+        self.status_effect = bt.Ailments.Item_Ailments
     def __str__(self):
-        return f"{self.name} (Damage Value: {self.damage_value}, Mana Cost: {self.mana_cost}, Status Effect: {self.status_effect}, Effect Amount: {self.status_amount}"
+        return f"{self.name} (Damage Value: {self.damage_value}, Mana Cost: {self.mana_cost}, Status Effect: {self.status_effect}"
 
 class Healing_Prayers:
     def __init__(self, item_name, healing_value, mana_cost, faith_requirement):
@@ -79,4 +76,13 @@ class Healing_Items:
         self.healing_value = healing_value
         self.amount = amount
     def __str__(self):
-        return f"{self.name} (Total amount: {self.amount}, Healing Amount: {self.healing_value})"
+        return f"{self.name} (Total amount: {self.amount}, Healing Amount: {self.healing_value}, Amount {self.amount})"
+
+class Combat_Items:
+    def __init__(self, item_name, damage_value, amount):
+        self.name = item_name
+        self.damage_value = damage_value
+        self.amount = amount
+        self.status_effect = bt.Ailments.Item_Ailments
+    def __str__(self):
+        return f"{self.name} (Damage Value: {self.damage_value}, Status Effect: {self.status_effect}, Amount {self.amount})"
