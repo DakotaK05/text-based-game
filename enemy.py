@@ -9,7 +9,7 @@ class Enemy:
     #        | |      |  |        /  /      \  \        |   |               | |
     #    ____/ /      |  |       /  /        \  \       |   |          ____/ /
     #   |_____/       |__|      /__/          \__\      |___|         |_____/
-    def __init__(self, name, enemy_type, max_health, current_health, strength, dexterity, agility, luck, resistance, 
+    def __init__(self, name, enemy_type, max_health, current_health, strength, dexterity, agility, luck, exp_worth, 
         equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None, equipped_magic_catalyst=None, equipped_combat_spell=None, 
         equipped_prayer_catalyst=None, equipped_combat_prayer=None, equipped_healing_prayer=None, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
         magic_catalyst_inventory=None, combat_magic_inventory=None, prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None, 
@@ -22,7 +22,7 @@ class Enemy:
         self.dexterity = dexterity #How much damage melee weapons/bows/daggers do on top of their value
         self.agility = agility #chance to dodge a hit/ increases weapon speed.
         self.luck = luck # Chance for criticals
-        self.resistance = resistance #status resistance
+        self.exp_worth = exp_worth
         self.equipped_melee_weapon = equipped_melee_weapon if equipped_melee_weapon is not None else []
         self.equipped_ranged_weapon = equipped_ranged_weapon if equipped_ranged_weapon is not None else []
         self.equipped_ranged_ammo = equipped_ranged_ammo if equipped_ranged_ammo is not None else []
@@ -117,111 +117,115 @@ class Enemy:
     def enemy_melee_attack(self, player, item):
         if self.equipped_melee_weapon == None:
             melee_attack_value = self.strength
-            status_effect = None
-            status_amount = None
-            print(f"Having no melee weapon equipped, the enemy results to attacking with their bare hands.")
-            player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+            print(f"Having nothing
+             equipped, the enemy resorts to attacking with their bare hands.")
+            player.take_melee_damage(melee_attack_value)
         else:
             for item in self.equipped_melee_weapon:
                 weapon_attack_value = item.damage_value
-                status_effect = item.status_effect
-                status_amount = item.status_ammount
                 break
             pre_attack_value = self.strength * 2 + weapon_attack_value 
             if self.luck >= 60:
-                base_crit_chance = rr.random(1, 3)
+                base_crit_chance = rr.randint(1, 3)
                 if base_crit_chance == 3:
                     melee_attack_value = pre_attack_value * 10
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    print("CRITICAL ATTACK")
+                    player.take_melee_damage(melee_attack_value)
                 else:
                     melee_attack_value = pre_attack_value
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount) 
+                    player.take_melee_damage(melee_attack_value) 
             elif self.luck >= 50:
-                base_crit_chance = rr.random(1, 5)
+                base_crit_chance = rr.randint(1, 5)
                 if base_crit_chance == 5:
                     melee_attack_value = pre_attack_value * 10
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    print("CRITICAL ATTACK")
+                    player.take_melee_damage(melee_attack_value)
                 else:
                     melee_attack_value = pre_attack_value
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    player.take_melee_damage(melee_attack_value)
             elif self.luck >= 40:
-                base_crit_chance = rr.random(1, 8)
+                base_crit_chance = rr.randint(1, 8)
                 if base_crit_chance == 8:
                     melee_attack_value = pre_attack_value * 10
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    print("CRITICAL ATTACK")
+                    player.take_melee_damage(melee_attack_value)
                 else:
                     melee_attack_value = pre_attack_value
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    player.take_melee_damage(melee_attack_value)
             elif self.luck >= 30:
-                base_crit_chance = rr.random(1, 10)
+                base_crit_chance = rr.randint(1, 10)
                 if base_crit_chance == 10:
                     melee_attack_value = pre_attack_value * 10
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    print("CRITICAL ATTACK")
+                    player.take_melee_damage(melee_attack_value)
                 else:
                     melee_attack_value = pre_attack_value
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    player.take_melee_damage(melee_attack_value)
             elif self.luck <= 30:
-                base_crit_chance = rr.random(1, 15)
+                base_crit_chance = rr.randint(1, 15)
                 if base_crit_chance == 15:
                     melee_attack_value = pre_attack_value * 10
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    print("CRITICAL ATTACK")
+                    player.take_melee_damage(melee_attack_value)
                 else:
                     melee_attack_value = pre_attack_value
-                    player.take_melee_damage(melee_attack_value, status_effect, status_amount)
+                    player.take_melee_damage(melee_attack_value)
             
 
     
     def enemy_ranged_attack(self, player, item):
         if self.equipped_ranged_weapon == None and self.ranged_ammo_inventory == None:
             melee_attack_value = self.strength
-            status_effect = None
-            status_amount = None
-            print(f"Having no melee weapon equipped, the enemy results to attacking with their bare hands.")
+            print(f"Having nothing
+             equipped, the enemy resorts to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
         elif self.equipped_ranged_weapon == None and item in self.equipped_ranged_ammo:
             print(f"Having no bow but arrows, {self.name} stabs you with it.")
             for item in self.equipped_ranged_ammo:
                 arrow_damage = item.damage_value
-                status_effect = item.status_effect
-                status_amount = item.status_ammount
                 break
             pre_attack_value = self.strength + self.dexterity + arrow_damage
             if self.luck >= 60:
-                base_crit_chance = rr.random(1, 3)
+                base_crit_chance = rr.randint(1, 3)
                 if base_crit_chance == 3:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_melee_damage(ranged_attack_value) 
             elif self.luck >= 50:
-                base_crit_chance = rr.random(1, 5)
+                base_crit_chance = rr.randint(1, 5)
                 if base_crit_chance == 5:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck >= 40:
-                base_crit_chance = rr.random(1, 8)
+                base_crit_chance = rr.randint(1, 8)
                 if base_crit_chance == 8:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck >= 30:
-                base_crit_chance = rr.random(1, 10)
+                base_crit_chance = rr.randint(1, 10)
                 if base_crit_chance == 10:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck <= 30:
-                base_crit_chance = rr.random(1, 15)
+                base_crit_chance = rr.randint(1, 15)
                 if base_crit_chance == 15:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
@@ -234,81 +238,91 @@ class Enemy:
                 break
             for item in self.equipped_ranged_ammo:
                 arrow_damage = item.damage_value
-                status_effect = item.status_effect
-                status_amount = item.status_ammount
                 break
             pre_attack_value = self.strength + self.dexterity + bow_value + arrow_damage
             if self.luck >= 60:
-                base_crit_chance = rr.random(1, 3)
+                base_crit_chance = rr.randint(1, 3)
                 if base_crit_chance == 3:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_melee_damage(ranged_attack_value) 
             elif self.luck >= 50:
-                base_crit_chance = rr.random(1, 5)
+                base_crit_chance = rr.randint(1, 5)
                 if base_crit_chance == 5:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck >= 40:
-                base_crit_chance = rr.random(1, 8)
+                base_crit_chance = rr.randint(1, 8)
                 if base_crit_chance == 8:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck >= 30:
-                base_crit_chance = rr.random(1, 10)
+                base_crit_chance = rr.randint(1, 10)
                 if base_crit_chance == 10:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
             elif self.luck <= 30:
-                base_crit_chance = rr.random(1, 15)
+                base_crit_chance = rr.randint(1, 15)
                 if base_crit_chance == 15:
                     ranged_attack_value = pre_attack_value * 10
+                    print("CRITICAL ATTACK")
                     player.take_ranged_damage(ranged_attack_value)
                 else:
                     ranged_attack_value = pre_attack_value
                     player.take_ranged_damage(ranged_attack_value)
         else:
             melee_attack_value = self.strength
-            status_effect = None
-            status_amount = None
-            print(f"Having no melee weapon equipped, the enemy results to attacking with their bare hands.")
+            print(f"Having nothing
+             equipped, the enemy resorts to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
 
     def enemy_magic_attack(self, player,  item):
         if self.equipped_magic_catalyst == None and self.equipped_combat_spell == None:
             melee_attack_value = self.strength
-            status_effect = None
-            status_amount = None
-            print(f"Having no melee weapon equipped, the enemy results to attacking with their bare hands.")
+            print(f"Having nothing
+             equipped, the enemy resorts to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
         elif item in self.equipped_prayer_catalyst and self.equipped_combat_spell == None:
-            print(f"Having no spells with their catalyst, {self.name} rushes at you, preparing to swing his catalyst. ")
+            print(f"Having no spells with their catalyst, {self.name} rushes at you, preparing to swing it's catalyst. ")
             for item in self.equipped_magic_catalyst:
                 self.remove_magic_catalyst(item)
                 break
             player.take_catalyst_damage()
         elif item in self.equipped_combat_spell and item in self.equipped_magic_catalyst:
             for item in self.equipped_combat_spell:
-                pass
-        
+                spell_damage = item.damage_value
+                spell_name = item.name
+                break
+            for item in self.equipped_magic_catalyst:
+                catalyst_name = item.name
+            print(f'{self.name} shoots the spell, {spell_name}, at you with {catalyst_name}.')
+            magic_damage_value = spell_damage
+            player.take_magic_damage(magic_damage_value)
         else:
             melee_attack_value = self.strength
-            status_effect = None
-            status_amount = None
-            print(f"Having no melee weapon equipped, the enemy results to attacking with their bare hands.")
+            print(f"Having nothing equipped, the enemy results to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
-
+    
+    def enemy_prayer_attack(self, player, item):
+        if self.equipped_prayer_catalyst == None and self.equipped_combat_prayer == None:
+            melee_attack_value = self.strength
+            print(f"Having nothing equipped, the enemy resorts to attacking with their bare hands.")
+            player.take_melee_damage(melee_attack_value)
 
 
 
