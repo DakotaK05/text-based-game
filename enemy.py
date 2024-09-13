@@ -12,8 +12,7 @@ class Enemy:
     def __init__(self, name, enemy_type, max_health, current_health, strength, dexterity, agility, luck, exp_worth, 
         equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None, equipped_magic_catalyst=None, equipped_combat_spell=None, 
         equipped_prayer_catalyst=None, equipped_combat_prayer=None, equipped_healing_prayer=None, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
-        magic_catalyst_inventory=None, combat_magic_inventory=None, prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None, 
-        healing_item_inventory=None, combat_item_inventory=None, status_effect=None):
+        magic_catalyst_inventory=None, combat_magic_inventory=None, prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None):
         self.name = name #Enemy name
         self.enemy_type = enemy_type
         self.max_health = max_health #Enemy's max Hp
@@ -39,9 +38,6 @@ class Enemy:
         self.prayer_catalyst_inventory = prayer_catalyst_inventory if prayer_catalyst_inventory is not None else []
         self.combat_prayer_inventory = combat_prayer_inventory if combat_prayer_inventory is not None else []
         self.healing_prayer_inventory = healing_prayer_inventory if healing_prayer_inventory is not None else []
-        self.healing_item_inventory = healing_item_inventory if healing_item_inventory is not None else []
-        self.combat_item_inventory = combat_item_inventory if combat_item_inventory is not None else []
-        self.status_effect = status_effect if status_effect is not None else []
     def enemy_decision(self):
         enemy_dictionarys = {
             "grass": {} 
@@ -68,9 +64,6 @@ class Enemy:
             prayer_catalyst_inventory=None,
             combat_prayer_inventory=None,
             healing_prayer_inventory=None,
-            healing_item_inventory=None,
-            combat_item_inventory=None,
-            status_effect=None
         )
         return enemy
     
@@ -315,7 +308,7 @@ class Enemy:
             player.take_magic_damage(magic_damage_value)
         else:
             melee_attack_value = self.strength
-            print(f"Having nothing equipped, the enemy results to attacking with their bare hands.")
+            print(f"Having nothing equipped, the enemy resorts to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
     
     def enemy_prayer_attack(self, player, item):
@@ -323,6 +316,84 @@ class Enemy:
             melee_attack_value = self.strength
             print(f"Having nothing equipped, the enemy resorts to attacking with their bare hands.")
             player.take_melee_damage(melee_attack_value)
+        elif item in self.equipped_combat_prayer and item in self.equipped_prayer_catalyst:
+            for item in self.equipped_combat_prayer:
+                prayer_damage_value = item.damage_value
+                prayer_name = item.name
+                break
+            for item in self.equipped_prayer_catalyst:
+                catalyst_name = item.name
+            print(f'Praying to the gods above, {self.name} shoots the result of the prayer, which is {prayer_name}, with {catalyst_name}.')
+            player.take_prayer_damage(prayer_damage_value)
+        else:
+            melee_attack_value = self.strength
+            print(f"Having nothing equipped, the enemy resorts to attacking with their bare hands.")
+            player.take_melee_damage(melee_attack_value)
+    def enemy_healing_prayer(self, player, item):
+        if self.equipped_healing_prayer == None:
+            melee_attack_value = self.strength
+            print(f"Having nothing equipped, the enemy resorts to attacking with their bare hands.")
+            player.take_melee_damage(melee_attack_value)
+        elif item in self.equipped_healing_prayer:
+            for item in self.equipped_healing_prayer:
+                healing_value = item.healing_value
+                break
+            self.current_health += healing_value
+            if self.current_health > self.max_health:
+                self.current_health = self.max_health
+            print(f'{self.name} heals itself with a prayer, for {healing_value} health.')
+
+    def ee_take_melee_damage(self, melee_damage_value):
+        if self.agility >= 70:
+            dodge_chance = rr.randint(1,3)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        elif self.agility >= 60:
+            dodge_chance = rr.randint(1,5)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        elif self.agility >= 50:
+            dodge_chance = rr.randint(1,7)
+            if dodge_chance == 7:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        elif self.agility >= 40:
+            dodge_chance = rr.randint(1,9)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        elif self.agility >= 30:
+            dodge_chance = rr.randint(1,11)
+            if dodge_chance == 11:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        elif self.agility >= 20:
+            dodge_chance = rr.randint(1,13)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+        else:
+            dodge_chance = rr.randint(1,15)
+            if dodge_chance == 15:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
+                self.current_health -= melee_damage_value
+                
 
 
 

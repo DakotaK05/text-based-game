@@ -13,18 +13,19 @@ class Character:
     #   |_____/       |__|      /__/          \__\      |___|         |_____/
     #
     def __init__(self, name, character_class, current_exp, exp_requirement, max_health, current_health, max_mana, current_mana, level, willpower, 
-        endurance, strength, dexterity, agility, faith, luck, intelligence, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
-        magic_catalyst_inventory=None, combat_magic_inventory=None, prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None, 
+        endurance, strength, dexterity, agility, faith, luck, intelligence, equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None,
+        equipped_magic_catalyst=None, equipped_combat_spell=None, equipped_prayer_catalyst=None, equipped_combat_prayer=None, equipped_healing_prayer=None, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
+        magic_catalyst_inventory=None, combat_magic_inventory=None,  prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None, 
         healing_item_inventory=None, combat_item_inventory=None):
-        self.name = name #player name
-        self.character_class = character_class #player character class
+        self.name = name #enemy name
+        self.character_class = character_class #enemy character class
         self.level = level
         self.exp = current_exp
         self.exp_requirement = exp_requirement
-        self.max_health = max_health #players max Hp
-        self.current_health = current_health #players current Hp
-        self.max_mana = max_mana #players max MP
-        self.current_mana = current_mana #players current MP
+        self.max_health = max_health #enemys max Hp
+        self.current_health = current_health #enemys current Hp
+        self.max_mana = max_mana #enemys max MP
+        self.current_mana = current_mana #enemys current MP
         self.strength = strength #How much damage melee weapons do on top of their value
         self.dexterity = dexterity #How much damage melee weapons/bows/daggers do on top of their value
         self.endurance = endurance #Chance to survive a fatal hit / Defense / resistance to status ailments
@@ -33,6 +34,14 @@ class Character:
         self.faith = faith #affects holy spell and how many can be used.
         self.luck = luck # Chance for criticals
         self.willpower = willpower #revive
+        self.equipped_melee_weapon = equipped_melee_weapon if equipped_melee_weapon is not None else []
+        self.equipped_ranged_weapon = equipped_ranged_weapon if equipped_ranged_weapon is not None else []
+        self.equipped_ranged_ammo = equipped_ranged_ammo if equipped_ranged_ammo is not None else []
+        self.equipped_magic_catalyst = equipped_magic_catalyst if equipped_magic_catalyst is not None else []
+        self.equipped_combat_spell = equipped_combat_spell if equipped_combat_spell is not None else []
+        self.equipped_prayer_catalyst = equipped_prayer_catalyst if equipped_prayer_catalyst is not None else []
+        self.equipped_combat_prayer = equipped_combat_prayer if equipped_combat_prayer is not None else []
+        self.equipped_healing_prayer = equipped_healing_prayer if equipped_healing_prayer is not None else []
         self.melee_weapon_inventory = melee_weapon_inventory if melee_weapon_inventory is not None else []
         self.ranged_weapon_inventory = ranged_weapon_inventory if ranged_weapon_inventory is not None else []
         self.ranged_ammo_inventory = ranged_ammo_inventory if ranged_ammo_inventory is not None else []
@@ -129,9 +138,9 @@ class Character:
         self.ranged_weapon_inventory.append(ranged_weapon)
         print(f"{ranged_weapon.name} has been added to your inventory...")
     
-    def add_ranged_ammo(self, ranged_ammo):
-        self.ranged_ammo_inventory.append(ranged_ammo)
-        print(f"{ranged_ammo.name} has been added to your inventory...")
+    def add_magic_catalyst(self, magic_catalyst):
+        self.magic_catalyst_inventory.append(magic_catalyst)
+        print(f"{magic_catalyst.name} has been added to your inventory...")
     
     def add_magic_catalyst(self, magic_catalyst):
         self.magic_catalyst_inventory.append(magic_catalyst)
@@ -187,17 +196,17 @@ class Character:
         else:
             print(f"{ranged_weapon_name} not found in your inventory.")
 
-    def remove_ranged_ammo(self, ranged_ammo_name):
+    def remove_magic_catalyst(self, magic_catalyst_name):
         item_to_remove = None
-        for item in self.ranged_ammo_inventory: 
-            if item.name == ranged_ammo_name:
+        for item in self.magic_catalyst_inventory: 
+            if item.name == magic_catalyst_name:
                 item_to_remove = item
                 break
         if item_to_remove:
-            self.ranged_ammo_inventory.remove(item_to_remove)
+            self.magic_catalyst_inventory.remove(item_to_remove)
             print(f"{item_to_remove.name} has been removed from your inventory.")
         else:
-            print(f"{ranged_ammo_name} not found in your inventory.")
+            print(f"{magic_catalyst_name} not found in your inventory.")
 
     def remove_magic_catalyst(self, magic_catalyst_name):
         item_to_remove = None
@@ -283,69 +292,215 @@ class Character:
     
     def display_inventory(self):
         print("\nInventory:")
-        if not self.melee_weapon_inventory and not self.ranged_weapon_inventory and not self.ranged_ammo_inventory and  not self.magic_catalyst_inventory and not self.combat_spell_inventory and not self.prayer_catalyst_inventory and not self.combat_prayer_inventory and not self.healing_prayer_inventory and not self.healing_item_inventory and not self.combat_item_inventory:
+        if not self.melee_weapon_inventory and not self.ranged_weapon_inventory and not self.magic_catalyst_inventory and  not self.magic_catalyst_inventory and not self.combat_spell_inventory and not self.prayer_catalyst_inventory and not self.combat_prayer_inventory and not self.healing_prayer_inventory and not self.healing_item_inventory and not self.combat_item_inventory:
             print("Your inventory is empty.")
         else:
             if not self.melee_weapon_inventory:
-                print("You dont have any melee weapons.")
+                print("You don't have any melee weapons.")
             else:
                 print(f"Melee Weapons")
                 for item in self.melee_weapon_inventory:
                     print(item)
             if not self.ranged_weapon_inventory:
-                print("You dont have any Ranged Weapons.")
+                print("You don't have any Ranged Weapons.")
             else:
                 print("Ranged Weapons")
                 for item in self.ranged_weapon_inventory: 
                     print(item)
-            if not self.ranged_ammo_inventory:
-                print("You dont have any Ranged Ammo.")
+            if not self.magic_catalyst_inventory:
+                print("You don't have any Magic Catalyst.")
             else:
-                print("Ranged Ammo")
-                for item in self.ranged_ammo_inventory:
+                print("Magic Catalyst")
+                for item in self.magic_catalyst_inventory:
                     print(item)
             if not self.magic_catalyst_inventory:
-                print("You dont have any Magic Catalyst.")
+                print("You don't have any Magic Catalyst.")
             else:
                 print("Magic Catalyst")
                 for item in self.magic_catalyst_inventory:
                     print(item)
             if not self.combat_spell_inventory:
-                print("You dont have any Magic Spells.")
+                print("You don't have any Magic Spells.")
             else:
                 print("Magic spells")
                 for item in self.combat_spell_inventory:
                     print(item)
             if not self.prayer_catalyst_inventory:
-                print("You dont have any Prayer Catalysts.")
+                print("You don't have any Prayer Catalysts.")
             else:
                 print("Prayer catalysts")
                 for item in self.prayer_catalyst_inventory:
                     print(item)
             if not self.combat_prayer_inventory:
-                print("You dont have any Combat based Prayers.")
+                print("You don't have any Combat based Prayers.")
             else:
                 print("Combat Prayers")
                 for item in self.combat_prayer_inventory:
                     print(item)
             if not self.healing_prayer_inventory:
-                print("You dont have any Healing Prayers.")
+                print("You don't have any Healing Prayers.")
             else:
                 print("Healing Prayers")
                 for item in self.healing_prayer_inventory:
                     print(item)
             if not self.healing_item_inventory:
-                print("You dont have any Healing Items.")
+                print("You don't have any Healing Items.")
             else:
                 print("Healing Items")
                 for item in self.healing_item_inventory:
                     print(item)
             if not self.combat_item_inventory:
-                print("You dont have any Combat Items.")
+                print("You don't have any Combat Items.")
             else:
                 print("Combat Items")
                 for item in self.combat_item_inventory:
-                    print(item)                                                            
+                    print(item)                           
+    
+    
+    
+    
+    def equip_weapon(self):
+        if not self.melee_weapon_inventory and not self.ranged_weapon_inventory and not self.magic_catalyst_inventory and  not self.magic_catalyst_inventory and not self.combat_spell_inventory and not self.prayer_catalyst_inventory and not self.combat_prayer_inventory and not self.healing_prayer_inventory:
+            print("You have nothing to equip.")
+        else:
+            class_type = input("""
+What type of item are you looking to equip?
+1) Melee Weapon
+2) Ranged Weapon
+3) Magic Catalyst
+4) Magic Catalyst
+5) Magic Spell
+6) Prayer Catalyst
+7) Combat Prayer
+8) Healing Prayer
+""")
+            if class_type == "1" or "Melee Weapon":
+                if not self.melee_weapon_inventory:
+                    print("You do not have any melee weapons to equip.")
+                else:
+                    for item in self.melee_weapon_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Melee Weapon would You like to equip?")
+                    if chosen_weapon == item.name in self.melee_weapon_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_melee_weapon:
+                            item_to_remove = item
+                            self.equipped_melee_weapon.remove(item_to_remove)
+                            self.equipped_melee_weapon.append(item_to_add)
+                        else:
+                            self.equipped_melee_weapon.append(item_to_add)
+            elif class_type == "2" or "Ranged Weapon":
+                if not self.ranged_weapon_inventory:
+                    print("You do not have any ranged weapons to equip.")
+                else: 
+                    for item in self.ranged_weapon_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Ranged Weapon would You like to equip?")
+                    if chosen_weapon == item.name in self.ranged_weapon_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_ranged_weapon:
+                            item_to_remove = item
+                            self.equipped_ranged_weapon.remove(item_to_remove)
+                            self.equipped_ranged_weapon.append(item_to_add)
+                        else: 
+                            self.equipped_ranged_weapon.append(item_to_add)
+            elif class_type == "3" or "Ranged Ammo":
+                if not self.ranged_ammo_inventory:
+                    print("You do not have any ranged ammo to equip.")
+                else: 
+                    for item in self.ranged_ammo_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Ranged Ammo would You like to equip?")
+                    if chosen_weapon == item.name in self.ranged_ammo_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_ranged_ammo:
+                            item_to_remove = item
+                            self.equipped_ranged_ammo.remove(item_to_remove)
+                            self.equipped_ranged_ammo.append(item_to_add)
+                        else: 
+                            self.equipped_ranged_ammo.append(item_to_add)
+                            
+            elif class_type == "4" or "Magic Catalyst":
+                if not self.magic_catalyst_inventory:
+                    print("You do not have any Magic Catalyst to equip.")
+                else: 
+                    for item in self.magic_catalyst_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Magic Catalyst would You like to equip?")
+                    if chosen_weapon == item.name in self.magic_catalyst_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_magic_catalyst:
+                            item_to_remove = item
+                            self.equipped_magic_catalyst.remove(item_to_remove)
+                            self.equipped_magic_catalyst.append(item_to_add)
+                        else: 
+                            self.equipped_magic_catalyst.append(item_to_add)
+            elif class_type == "5" or "Magic Spell":
+                if not self.combat_spell_inventory:
+                    print("You do not have any Magic Spells to equip.")
+                else: 
+                    for item in self.combat_spell_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Magic Spell would You like to equip?")
+                    if chosen_weapon == item.name in self.combat_spell_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_magic_catalyst:
+                            item_to_remove = item
+                            self.equipped_combat_spell.remove(item_to_remove)
+                            self.equipped_combat_spell.append(item_to_add)
+                        else: 
+                            self.equipped_combat_spell.append(item_to_add)
+            elif class_type == "6" or "Prayer Catalyst":
+                if not self.combat_spell_inventory:
+                    print("You do not have any Prayer Catalyst to equip.")
+                else: 
+                    for item in self.combat_spell_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Prayer Catalyst would You like to equip?")
+                    if chosen_weapon == item.name in self.combat_spell_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_magic_catalyst:
+                            item_to_remove = item
+                            self.equipped_combat_spell.remove(item_to_remove)
+                            self.equipped_combat_spell.append(item_to_add)
+                        else: 
+                            self.equipped_combat_spell.append(item_to_add)
+            
+            elif class_type == "7" or "Combat Prayer":
+                if not self.combat_prayer_inventory:
+                    print("You do not have any Combat Prayers to equip.")
+                else: 
+                    for item in self.combat_prayer_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Combat Prayers would You like to equip?")
+                    if chosen_weapon == item.name in self.combat_prayer_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_combat_prayer:
+                            item_to_remove = item
+                            self.equipped_combat_prayer.remove(item_to_remove)
+                            self.equipped_combat_prayer.append(item_to_add)
+                        else: 
+                            self.equipped_combat_prayer.append(item_to_add)
+            elif class_type == "8" or "Healing Prayer":
+                if not self.healing_prayer_inventory:
+                    print("You do not have any Healing Prayers to equip.")
+                else: 
+                    for item in self.healing_prayer_inventory:
+                        print(item)
+                    chosen_weapon = input("Which Healing Prayers would You like to equip?")
+                    if chosen_weapon == item.name in self.healing_prayer_inventory:
+                        item_to_add = chosen_weapon
+                        if item in self.equipped_healing_prayer:
+                            item_to_remove = item
+                            self.equipped_healing_prayer.remove(item_to_remove)
+                            self.equipped_healing_prayer.append(item_to_add)
+                        else: 
+                            self.equipped_healing_prayer.append(item_to_add)
+
+
+
+
+
 #     _______        _______      ____          ___      ______           ____        _____________
 #    / ______\      /  ___  \    |  _ \        /   |    |  __  \         / __ \      |_____   _____|
 #   | /            | /     \ |   | | \ \      / /| |    | |__| |        / /  \ \           | |
@@ -678,6 +833,7 @@ class Character:
             else:
                 self.current_health -= tcd
                 print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
+    
     def take_magic_damage(self, magic_damage_value, enemy):
         if self.agility >= 70:
             dodge_chance = rr.randint(1,3)
@@ -784,7 +940,202 @@ class Character:
             else:
                 self.current_health -= magic_damage_value
                 print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
- 
-        
+
+
+    def take_prayer_damage(self, enemy, prayer_damage_value):
+        if self.agility >= 70:
+            dodge_chance = rr.randint(1,3)
+            if dodge_chance == 3:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 65:
+            dodge_chance = rr.randint(1,4)
+            if dodge_chance == 4:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 60:
+            dodge_chance = rr.randint(1,5)
+            if dodge_chance == 5:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 55:
+            dodge_chance = rr.randint(1,6)
+            if dodge_chance == 6:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 50:
+            dodge_chance = rr.randint(1,7)
+            if dodge_chance == 7:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 45:
+            dodge_chance = rr.randint(1,8)
+            if dodge_chance == 8:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 40:
+            dodge_chance = rr.randint(1,9)
+            if dodge_chance == 9:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 35:
+            dodge_chance = rr.randint(1,10)
+            if dodge_chance == 10:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 30:
+            dodge_chance = rr.randint(1,11)
+            if dodge_chance == 11:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 25:
+            dodge_chance = rr.randint(1,12)
+            if dodge_chance == 12:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 20:
+            dodge_chance = rr.randint(1,13)
+            if dodge_chance == 13:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 15:
+            dodge_chance = rr.randint(1,13)
+            if dodge_chance == 13:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 10:
+            dodge_chance = rr.randint(1,14)
+            if dodge_chance == 12:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        elif self.agility >= 5:
+            dodge_chance = rr.randint(1,15)
+            if dodge_chance == 15:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+        else:
+            dodge_chance = rr.randint(1,20)
+            if dodge_chance == 20:
+                print(f'You dodge the enemies attack, and live to continue fighting')
+            else:
+                self.current_health -= prayer_damage_value
+                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
+    
+    def player_melee_attack(self, enemy, item):
+        if not self.equipped_melee_weapon:
+            print("Not having a melee weapon equipped, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+        else:
+            for item in self.equipped_melee_weapon:
+                pre_attack_value = item.damage_value
+                break
+            if self.luck >= 70:
+                dd = rr.randint(1, 3)
+                if dd == 3:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            elif self.luck >= 60: 
+                dd = rr.randint(1, 5)
+                if dd == 5:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            elif self.luck >= 50: 
+                dd = rr.randint(1, 7)
+                if dd == 7:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            elif self.luck >= 40: 
+                dd = rr.randint(1, 9)
+                if dd == 9:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            elif self.luck >= 30: 
+                dd = rr.randint(1, 11)
+                if dd == 11:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            elif self.luck >= 20: 
+                dd = rr.randint(1, 13)
+                if dd == 13:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+            else: 
+                dd = rr.randint(1, 15)
+                if dd == 15:
+                    print("CRITICAL")
+                    melee_damage_value = pre_attack_value * 10
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+                else:
+                    melee_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
+                    enemy.ee_take_melee_damage(melee_damage_value)
+
+            
 
 

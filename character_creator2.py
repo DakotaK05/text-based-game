@@ -59,6 +59,14 @@ def create_character():
             current_exp=0,
             exp_requirement=100,
             **attributes,
+            equipped_melee_weapon=None,
+            equipped_ranged_weapon=None,
+            equipped_ranged_ammo=None,
+            equipped_magic_catalyst=None,
+            equipped_combat_spell=None,
+            equipped_prayer_catalyst=None,
+            equipped_combat_prayer=None,
+            equipped_healing_prayer=None,
             melee_weapon_inventory=None,
             ranged_weapon_inventory=None,
             ranged_ammo_inventory=None,
@@ -165,7 +173,8 @@ def manage_inventory(player):
         print("\nInventory Management:")
         print("1. View Inventory")
         print("2. Remove an Item")
-        print("3. Exit")
+        print("3. Equip Something")
+        print("4. Exit")
         choice = input("Choose an option: ")
         
         if choice == "1":
@@ -173,6 +182,8 @@ def manage_inventory(player):
         elif choice == "2":
             remove_item_from_inventory(player)
         elif choice == "3":
+            player.equip_weapon
+        elif choice == "4":
             break
         else:
             print("Invalid choice, please try again.")
