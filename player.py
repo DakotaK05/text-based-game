@@ -71,55 +71,57 @@ class Character:
         print(f"Willpower: {self.willpower}")
     
     def level_up(self):
-        self.level += 1
-        self.exp_requirement += 200
-        self.exp = 0
-        self.max_health += 50
-        self.current_health += 50
-        self.current_mana += 50
-        self.max_mana += 50
-        self.strength += 2
-        self.dexterity += 2
-        self.endurance += 2
-        self.agility += 2
-        self.intelligence += 2
-        self.faith += 2
-        self.luck += 2
-        print(f'Your level has increased, making you level {self.level}.')
-        print(f'All stats have been raised by 2')
-        if self.level == 15:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 30:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 45:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 60:
+        if self.exp_requirement == self.exp:
+            self.level += 1
+            self.exp_requirement += 200
+            self.exp = 0
+            self.max_health += 50
+            self.current_health += 50
+            self.current_mana += 50
+            self.max_mana += 50
+            self.strength += 2
+            self.dexterity += 2
+            self.endurance += 2
+            self.agility += 1
+            self.intelligence += 2
+            self.faith += 2
+            self.luck += 1
+            print(f'Your level has increased, making you level {self.level}.')
+            print(f'Most stats have been raised by 2.')
+            if self.level == 15:
                 self.willpower += 1
                 print('Your will power has increased.')
-        elif self.level == 75:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 90:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 105:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 120:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 135:
-            self.willpower += 1
-            print('Your will power has increased.')
-        elif self.level == 150:
-            self.willpower += 1
-            print('Your will power has increased.')
+            elif self.level == 30:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 45:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 60:
+                    self.willpower += 1
+                    print('Your will power has increased.')
+            elif self.level == 75:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 90:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 105:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 120:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 135:
+                self.willpower += 1
+                print('Your will power has increased.')
+            elif self.level == 150:
+                self.willpower += 1
+                print('Your will power has increased.')
+            else: 
+                pass
         else: 
             pass
-
     
     #  _________      ___     _    ___          ___    ________     ___     _    ____________       _______       ______      __        __                 
     # |___   ___|    |   \   | |   \  \        /  /   |  ______|   |   \   | |  |____    ____|     /  ____  \   |  ___ \     |  \      /  |
@@ -1135,6 +1137,276 @@ What type of item are you looking to equip?
                     melee_damage_value = pre_attack_value
                     print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
                     enemy.ee_take_melee_damage(melee_damage_value)
+        
+    def player_ranged_attack(self, enemy,  item):
+        if not self.equipped_ranged_weapon and self.equipped_ranged_ammo:
+            print("Not having a ranged weapon or ammo equipped, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+        elif not self.ranged_weapon_inventory and item in self.equipped_ranged_ammo:
+            for item in self.equipped_ranged_ammo:
+                pre_attack_value = item.damage_value + self.dexterity + self.strength
+                item.amount -= 1
+                break
+            print("Not having a way to shoot your arrows as the enemy, you rush at the enemy to stab them with one of your arrows, losing one in the process.")
+            if self.luck >= 70:
+                dd = rr.randint(1,3)
+                if dd == 3:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 60:
+                dd = rr.randint(1,5)
+                if dd == 5:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 50:
+                dd = rr.randint(1,7)
+                if dd == 7:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 40:
+                dd = rr.randint(1,9)
+                if dd == 9:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 30:
+                dd = rr.randint(1,11)
+                if dd == 11:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 20:
+                dd = rr.randint(1,13)
+                if dd == 13:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            else:
+                dd = rr.randint(1,15)
+                if dd == 15:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+        elif item in self.equipped_ranged_ammo and item in self.equipped_ranged_weapon:
+            for item in self.equipped_ranged_weapon:
+                damage_value = item.damage_value
+                break
+            for item in self.equipped_ranged_ammo:
+                damage_value2 = item.damage_value
+                break
+            pre_attack_value = damage_value + damage_value2 + self.dexterity + self.strength
+            if self.luck >= 70:
+                dd = rr.randint(1,3)
+                if dd == 3:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 60:
+                dd = rr.randint(1,5)
+                if dd == 5:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 50:
+                dd = rr.randint(1,7)
+                if dd == 7:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 40:
+                dd = rr.randint(1,9)
+                if dd == 9:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 30:
+                dd = rr.randint(1,11)
+                if dd == 11:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            elif self.luck >= 20:
+                dd = rr.randint(1,13)
+                if dd == 13:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+            else:
+                dd = rr.randint(1,15)
+                if dd == 15:
+                    print("CRITICAL")
+                    ranged_damage_value = pre_attack_value * 5
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+                else:
+                    ranged_damage_value = pre_attack_value
+                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
+                    enemy.ee_take_ranged_damage(ranged_damage_value)
+        else: 
+            print("Not having a ranged weapon or ammo equipped, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+    
+    def player_magic_attack(self, enemy, item, magic_damage_value):
+        if not self.equipped_combat_spell and not self.equipped_magic_catalyst:
+            print("Not having a spell or catalyst, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+        elif item in self.equipped_combat_spell and item in self.equipped_magic_catalyst:
+            for item in self.equipped_magic_catalyst:
+                catintreq = item.intelligence_requirement
+                break
+            for item in self.equipped_combat_spell:
+                magic_damage_value = item.damage_value + self.intelligence
+                spellintreq = item.intelligence_requirement
+                spell_name = item.name
+                mana_cost = item.mana_cost
+                break
+            if self.intelligence < spellintreq or catintreq:
+                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
+                melee_damage_value = self.strength
+                enemy.ee_take_melee_damage(melee_damage_value)
+            else:
+                print(f'You shoot the spell, {spell_name}, at the enemy, costing {mana_cost} mana.')
+                self.current_mana -= mana_cost
+                enemy.ee_take_magic_damage(magic_damage_value)
+        elif item in self.equipped_magic_catalyst and not self.equipped_combat_spell:
+            print("Not having a spell, You rush to slam your catalyst agains the enemy.")
+            enemy.ee_take_catalyst_damage()
+        else:
+            print("Missing a requirement, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+    def player_prayer_attack(self, enemy, item, prayer_damage_value):
+        if not self.equipped_combat_prayer and not self.equipped_prayer_catalyst:
+            print("Not having a prayer or catalyst, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+        elif item in self.equipped_prayer_catalyst and item in self.equipped_combat_prayer:
+            for item in self.equipped_prayer_catalyst:
+                catfaireq = item.faith_requirement
+                break
+            for item in self.equipped_combat_prayer:
+                spelfaithreq = item.faith_requirement
+                mana_cost = item.mana_cost
+                prayer_damage_value = item.damage_value + self.faith
+                name = item.name
+                break
+            if self.faith < spelfaithreq or catfaireq:
+                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
+                melee_damage_value = self.strength
+                enemy.ee_take_melee_damage(melee_damage_value)
+            else:
+                print(f'You pray for, {name}, to strike your enemies, in which it does, dealing {prayer_damage_value}, which costs {mana_cost}')
+                self.health -= mana_cost
+                enemy.ee_take_prayer_damage(prayer_damage_value)
+    def use_healing_prayer(self, item, enemy):
+        if not self.equipped_healing_prayer and not self.equipped_prayer_catalyst:
+            print("Not having a spell or catalyst, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+        elif item in self.equipped_healing_prayer and item in self.equipped_prayer_catalyst:
+            for item in self.equipped_prayer_catalyst:
+                faithcatreq = item.faith_requirement
+                break
+            for item in self.equipped_healing_prayer:
+                healing = item.healing_value + self.faith
+                prayfaitrq = item.faith_requirement
+                name = item.name
+            if self.faith < prayfaitrq or faithcatreq:
+                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
+                melee_damage_value = self.strength
+                enemy.ee_take_melee_damage(melee_damage_value)
+            else:
+                print(f'You pray for {name}, healing you {healing} health.')
+                self.current_health += healing
+        else:
+            print("Missing a requirement, you rush at the enemy with your fists before swinging.")
+            melee_damage_value = self.strength
+            enemy.ee_take_melee_damage(melee_damage_value)
+    def use_healing_item(self, item):
+        for item in self.healing_item_inventory:
+            print(item)
+        item_choice = input("Which item would you like to use?")
+        if item_choice in self.healing_item_inventory:
+            item.amount -= 1
+            print(f'You use a single {item.name}.')
+            self.current_health += item.healing_amount
+            if item.amount == 0:
+                self.healing_item_inventory.append(item)
+                
+            
+
+
 
             
 

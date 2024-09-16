@@ -9,7 +9,7 @@ class Enemy:
     #        | |      |  |        /  /      \  \        |   |               | |
     #    ____/ /      |  |       /  /        \  \       |   |          ____/ /
     #   |_____/       |__|      /__/          \__\      |___|         |_____/
-    def __init__(self, name, enemy_type, max_health, current_health, strength, dexterity, agility, luck, exp_worth, 
+    def __init__(self, name, enemy_type, max_health, current_health, strength, dexterity, agility, luck, exp_worth, enemy_ai_level=1,
         equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None, equipped_magic_catalyst=None, equipped_combat_spell=None, 
         equipped_prayer_catalyst=None, equipped_combat_prayer=None, equipped_healing_prayer=None, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
         magic_catalyst_inventory=None, combat_magic_inventory=None, prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None):
@@ -19,9 +19,10 @@ class Enemy:
         self.current_health = current_health #Enemy's current Hp
         self.strength = strength #How much damage melee weapons do on top of their value
         self.dexterity = dexterity #How much damage melee weapons/bows/daggers do on top of their value
-        self.agility = agility #chance to dodge a hit/ increases weapon speed.
+        self.agility = agility #chance to dodge a hit
         self.luck = luck # Chance for criticals
         self.exp_worth = exp_worth
+        self.enemy_ai_level = enemy_ai_level
         self.equipped_melee_weapon = equipped_melee_weapon if equipped_melee_weapon is not None else []
         self.equipped_ranged_weapon = equipped_ranged_weapon if equipped_ranged_weapon is not None else []
         self.equipped_ranged_ammo = equipped_ranged_ammo if equipped_ranged_ammo is not None else []
@@ -38,12 +39,13 @@ class Enemy:
         self.prayer_catalyst_inventory = prayer_catalyst_inventory if prayer_catalyst_inventory is not None else []
         self.combat_prayer_inventory = combat_prayer_inventory if combat_prayer_inventory is not None else []
         self.healing_prayer_inventory = healing_prayer_inventory if healing_prayer_inventory is not None else []
-    def enemy_decision(self):
+    def enemy_decision(self, choice):
         enemy_dictionarys = {
-            "grass": {} 
+            "Grass": {"max_health": 1, "current_health": 1, "strength": 0, "dexterity": 0, "agility": 70, "luck": 1, "enemy_ai_level": 1 } 
         }
         enemy_dictionary = list(enemy_dictionarys.keys())
         attributes = enemy_dictionarys[enemy_dictionary]
+        enemy = list(enemy_dictionary.keys())[choice - 1]
         enemy = Enemy(
             self.name,
             enemy_type=None,
@@ -394,8 +396,64 @@ class Enemy:
                 print(f"Your attack connects with the enemy, dealing {melee_damage_value} damage.")
                 self.current_health -= melee_damage_value
                 
-
-
+    def ee_take_ranged_damage(self, ranged_damage_value):
+        if self.agility >= 70:
+            dodge_chance = rr.randint(1,3)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        elif self.agility >= 60:
+            dodge_chance = rr.randint(1,5)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        elif self.agility >= 50:
+            dodge_chance = rr.randint(1,7)
+            if dodge_chance == 7:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        elif self.agility >= 40:
+            dodge_chance = rr.randint(1,9)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        elif self.agility >= 30:
+            dodge_chance = rr.randint(1,11)
+            if dodge_chance == 11:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        elif self.agility >= 20:
+            dodge_chance = rr.randint(1,13)
+            if dodge_chance == 3:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+        else:
+            dodge_chance = rr.randint(1,15)
+            if dodge_chance == 15:
+                print(f'{self.name} dodges the attack, leaving it to continue fighting.')
+            else:
+                print(f"Your attack connects with the enemy, dealing {ranged_damage_value} damage.")
+                self.current_health -= ranged_damage_value
+    def ee_take_catalyst_damage(self):
+        print("As you slam your catalyst against the enemy, the enery inside burst out and causes an explosion, dealing 500 damage")
+        self.current_health -= 500
+    def ee_take_magic_damage(self, magic_damage_value):
+        print("The spell hits it.")
+        self.current_health -= magic_damage_value
+    def ee_take_prayer_damage(self, prayer_damage_value):
+        self.current_health -= prayer_damage_value
 
 
 
