@@ -13,10 +13,10 @@ class Character:
     #   |_____/       |__|      /__/          \__\      |___|         |_____/
     #
     def __init__(self, name, character_class, current_exp, exp_requirement, max_health, current_health, max_mana, current_mana, level, willpower, 
-        endurance, strength, dexterity, agility, faith, luck, intelligence, equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None,
+        endurance, strength, dexterity, agility, faith, intelligence, equipped_melee_weapon=None, equipped_ranged_weapon=None, equipped_ranged_ammo=None,
         equipped_magic_catalyst=None, equipped_combat_spell=None, equipped_prayer_catalyst=None, equipped_combat_prayer=None, equipped_healing_prayer=None, melee_weapon_inventory=None, ranged_weapon_inventory=None, ranged_ammo_inventory=None, 
         magic_catalyst_inventory=None, combat_magic_inventory=None,  prayer_catalyst_inventory=None, combat_prayer_inventory=None, healing_prayer_inventory=None, 
-        healing_item_inventory=None, combat_item_inventory=None):
+        healing_item_inventory=None):
         self.name = name #enemy name
         self.character_class = character_class #enemy character class
         self.level = level
@@ -32,7 +32,6 @@ class Character:
         self.agility = agility #chance to dodge a hit.
         self.intelligence = intelligence #affects spell damage and how many spells are usable 
         self.faith = faith #affects holy spell and how many can be used.
-        self.luck = luck # Chance for criticals
         self.willpower = willpower #revive
         self.equipped_melee_weapon = equipped_melee_weapon if equipped_melee_weapon is not None else []
         self.equipped_ranged_weapon = equipped_ranged_weapon if equipped_ranged_weapon is not None else []
@@ -51,7 +50,7 @@ class Character:
         self.combat_prayer_inventory = combat_prayer_inventory if combat_prayer_inventory is not None else []
         self.healing_prayer_inventory = healing_prayer_inventory if healing_prayer_inventory is not None else []
         self.healing_item_inventory = healing_item_inventory if healing_item_inventory is not None else []
-        self.combat_item_inventory = combat_item_inventory if combat_item_inventory is not None else []
+
 
     def display_stats(self):
         print(f"Name: {self.name}")
@@ -67,62 +66,50 @@ class Character:
         print(f"Agility: {self.agility}")
         print(f"Intelligence: {self.intelligence}")
         print(f"Faith: {self.faith}")
-        print(f"Luck: {self.luck}")
         print(f"Willpower: {self.willpower}")
     
     def level_up(self):
         if self.exp_requirement == self.exp:
+            print("YOU HAVE LEVELED UP.")
             self.level += 1
-            self.exp_requirement += 200
-            self.exp = 0
-            self.max_health += 50
-            self.current_health += 50
-            self.current_mana += 50
-            self.max_mana += 50
-            self.strength += 2
-            self.dexterity += 2
-            self.endurance += 2
-            self.agility += 1
-            self.intelligence += 2
-            self.faith += 2
-            self.luck += 1
-            print(f'Your level has increased, making you level {self.level}.')
-            print(f'Most stats have been raised by 2.')
-            if self.level == 15:
+            print(f'You are now level {self.level}.')
+            print("Your maximum HP and Mana has increased by 25")
+            self.max_health += 25
+            self.max_mana += 25
+            stat_points = 3
+            while stat_points > 0:
+                print(f"You have {stat_points} stat points remaining to spend.")
+                print(f'1. Strength: {self.strength}')
+                print(f'2. Dexterity: {self.strength}')
+                print(f'3. Endurance: {self.strength}')
+                print(f'4. Agility: {self.strength}')
+                print(f'5. Intelligence: {self.strength}')
+                print(f'6. Faith: {self.strength}')
+                statup = input(f"Which stat would you like to increase by 1?")
+                if statup == "1":
+                    self.strength += 1
+                    stat_points -= 1
+                elif statup == "2":
+                    self.dexterity += 1
+                    stat_points -= 1
+                elif statup == "3":
+                    self.endurance += 1
+                    stat_points -= 1
+                elif statup == "4":
+                    self.agility += 1
+                    stat_points -= 1
+                elif statup == "5":
+                    self.intelligence += 1
+                    stat_points -= 1
+                elif statup == "6":
+                    self.faith += 1
+                    stat_points -= 1
+            wilpow = self.level % 15
+            if wilpow == 0:
                 self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 30:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 45:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 60:
-                    self.willpower += 1
-                    print('Your will power has increased.')
-            elif self.level == 75:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 90:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 105:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 120:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 135:
-                self.willpower += 1
-                print('Your will power has increased.')
-            elif self.level == 150:
-                self.willpower += 1
-                print('Your will power has increased.')
+                print("Your Willpower has increased by 1")
             else: 
                 pass
-        else: 
-            pass
-    
     #  _________      ___     _    ___          ___    ________     ___     _    ____________       _______       ______      __        __                 
     # |___   ___|    |   \   | |   \  \        /  /   |  ______|   |   \   | |  |____    ____|     /  ____  \   |  ___ \     |  \      /  |
     #     | |        | |\ \  | |    \  \      /  /    | |_____     | |\ \  | |       |  |         |  /    \  |  | |___| |     \  \    /  /
@@ -167,13 +154,7 @@ class Character:
     def add_healing_items(self, healing_items):
         self.healing_item_inventory.append(healing_items)
         print(f"{healing_items.name} has been added to your inventory...")
-    
-    def add_combat_items(self, combat_items):
-        self.healing_item_inventory.append(combat_items)
-        print(f"{combat_items.name} has been added to your inventory...")
 
-    
-    
     def remove_melee_weapon(self, melee_weapon_name):
         item_to_remove = None
         for item in self.melee_weapon_inventory: 
@@ -281,20 +262,11 @@ class Character:
         else:
             print(f"{healing_item_name} not found in your inventory.")
     
-    def remove_combat_item(self, combat_item_name):
-        for item in self.combat_item_inventory: 
-            if item.name == combat_item_name:
-                item_to_remove = item
-                break
-        if item_to_remove:
-            self.combat_item_inventory.remove(item_to_remove)
-            print(f"{item_to_remove} has been removed from your inventory.")
-        else:
-            print(f"{combat_item_name} not found in your inventory.")
+
     
     def display_inventory(self):
         print("\nInventory:")
-        if not self.melee_weapon_inventory and not self.ranged_weapon_inventory and not self.magic_catalyst_inventory and  not self.magic_catalyst_inventory and not self.combat_spell_inventory and not self.prayer_catalyst_inventory and not self.combat_prayer_inventory and not self.healing_prayer_inventory and not self.healing_item_inventory and not self.combat_item_inventory:
+        if not self.melee_weapon_inventory and not self.ranged_weapon_inventory and not self.magic_catalyst_inventory and  not self.magic_catalyst_inventory and not self.combat_spell_inventory and not self.prayer_catalyst_inventory and not self.combat_prayer_inventory and not self.healing_prayer_inventory and not self.healing_item_inventory:
             print("Your inventory is empty.")
         else:
             if not self.melee_weapon_inventory:
@@ -350,13 +322,7 @@ class Character:
             else:
                 print("Healing Items")
                 for item in self.healing_item_inventory:
-                    print(item)
-            if not self.combat_item_inventory:
-                print("You don't have any Combat Items.")
-            else:
-                print("Combat Items")
-                for item in self.combat_item_inventory:
-                    print(item)                           
+                    print(item)    
     
     
     
@@ -511,901 +477,7 @@ What type of item are you looking to equip?
 #   | \______      | \_____/ |   | |    \____/   | |    | |__| |     / /        \ \        | |
 #    \_______/      \_______/    |_|             |_|    |______/    /_/          \_\       |_|    
 #
-    def take_melee_damage(self, enemy, item, melee_attack_value, status_effect, status_amount): 
-        melee_attack_value -= self.endurance
-        if self.agility >= 70:
-            dodge_chance = rr.randint(1,3)
-            if dodge_chance == 3:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value} damage")
-                self.health -= melee_attack_value
-                    
-
-        elif self.agility >= 65:
-            dodge_chance = rr.randint(1,4)
-            if dodge_chance == 4:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 60:
-            dodge_chance = rr.randint(1,5)
-            if dodge_chance == 5:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 55:
-            dodge_chance = rr.randint(1,6)
-            if dodge_chance == 6:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 50:
-            dodge_chance = rr.randint(1,7)
-            if dodge_chance == 7:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 45:
-            dodge_chance = rr.randint(1,8)
-            if dodge_chance == 8:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 40:
-            dodge_chance = rr.randint(1,9)
-            if dodge_chance == 9:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 35:
-            dodge_chance = rr.randint(1,10)
-            if dodge_chance == 10:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 30:
-            dodge_chance = rr.randint(1,11)
-            if dodge_chance == 11:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 25:
-            dodge_chance = rr.randint(1,12)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 20:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 15:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 10:
-            dodge_chance = rr.randint(1,14)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        elif self.agility >= 5:
-            dodge_chance = rr.randint(1,15)
-            if dodge_chance == 15:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-        else:
-            dodge_chance = rr.randint(1,20)
-            if dodge_chance == 20:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= melee_attack_value
-                print(f"{enemy.name} attacks {self.name} for {melee_attack_value}")
-    def take_ranged_damage(self, enemy, ranged_attack_value):
-        ranged_attack_value -= self.endurance
-        if self.agility >= 70:
-            dodge_chance = rr.randint(1,3)
-            if dodge_chance == 3:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 65:
-            dodge_chance = rr.randint(1,4)
-            if dodge_chance == 4:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 60:
-            dodge_chance = rr.randint(1,5)
-            if dodge_chance == 5:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 55:
-            dodge_chance = rr.randint(1,6)
-            if dodge_chance == 6:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 50:
-            dodge_chance = rr.randint(1,7)
-            if dodge_chance == 7:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 45:
-            dodge_chance = rr.randint(1,8)
-            if dodge_chance == 8:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 40:
-            dodge_chance = rr.randint(1,9)
-            if dodge_chance == 9:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 35:
-            dodge_chance = rr.randint(1,10)
-            if dodge_chance == 10:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 30:
-            dodge_chance = rr.randint(1,11)
-            if dodge_chance == 11:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 25:
-            dodge_chance = rr.randint(1,12)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 20:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 15:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 10:
-            dodge_chance = rr.randint(1,14)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        elif self.agility >= 5:
-            dodge_chance = rr.randint(1,15)
-            if dodge_chance == 15:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-        else:
-            dodge_chance = rr.randint(1,20)
-            if dodge_chance == 20:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= ranged_attack_value
-                print(f"{enemy.name} attacks {self.name} for {ranged_attack_value}")
-   
     
-    def take_catalyst_damage(self, enemy):
-        tcd = 500 - self.endurance
-        if self.agility >= 70:
-            dodge_chance = rr.randint(1,3)
-            if dodge_chance == 3:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 65:
-            dodge_chance = rr.randint(1,4)
-            if dodge_chance == 4:
-                print('''You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves''')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 60:
-            dodge_chance = rr.randint(1,5)
-            if dodge_chance == 5:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 55:
-            dodge_chance = rr.randint(1,6)
-            if dodge_chance == 6:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 50:
-            dodge_chance = rr.randint(1,7)
-            if dodge_chance == 7:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 45:
-            dodge_chance = rr.randint(1,8)
-            if dodge_chance == 8:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 40:
-            dodge_chance = rr.randint(1,9)
-            if dodge_chance == 9:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 35:
-            dodge_chance = rr.randint(1,10)
-            if dodge_chance == 10:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 30:
-            dodge_chance = rr.randint(1,11)
-            if dodge_chance == 11:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 25:
-            dodge_chance = rr.randint(1,12)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 20:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        elif self.agility >= 15:
-            dodge_chance = rr.randint(1,14)
-            if dodge_chance == 14:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-        else:
-            dodge_chance = rr.randint(1,20)
-            if dodge_chance == 20:
-                print(f'You dodge the enemies attack, and live to continue fighting. The catalyst hits the ground where you stood. The energy inside the catalyst burst out and exploding in the enemies hand, dealing {tcd} damage to themselves')
-                enemy.health -= tcd
-            else:
-                self.current_health -= tcd
-                print(f"The catalyst hits you. The neergy inside bursts out, destroying the catalyst and dealing {tcd} damage to you and the enemy.")
-    
-    def take_magic_damage(self, magic_damage_value, enemy):
-        if self.agility >= 70:
-            dodge_chance = rr.randint(1,3)
-            if dodge_chance == 3:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 65:
-            dodge_chance = rr.randint(1,4)
-            if dodge_chance == 4:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 60:
-            dodge_chance = rr.randint(1,5)
-            if dodge_chance == 5:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 55:
-            dodge_chance = rr.randint(1,6)
-            if dodge_chance == 6:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 50:
-            dodge_chance = rr.randint(1,7)
-            if dodge_chance == 7:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 45:
-            dodge_chance = rr.randint(1,8)
-            if dodge_chance == 8:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 40:
-            dodge_chance = rr.randint(1,9)
-            if dodge_chance == 9:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 35:
-            dodge_chance = rr.randint(1,10)
-            if dodge_chance == 10:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 30:
-            dodge_chance = rr.randint(1,11)
-            if dodge_chance == 11:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 25:
-            dodge_chance = rr.randint(1,12)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 20:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 15:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 10:
-            dodge_chance = rr.randint(1,14)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        elif self.agility >= 5:
-            dodge_chance = rr.randint(1,15)
-            if dodge_chance == 15:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-        else:
-            dodge_chance = rr.randint(1,20)
-            if dodge_chance == 20:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= magic_damage_value
-                print(f"{enemy.name} attacks {self.name} for {magic_damage_value}")
-
-
-    def take_prayer_damage(self, enemy, prayer_damage_value):
-        if self.agility >= 70:
-            dodge_chance = rr.randint(1,3)
-            if dodge_chance == 3:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 65:
-            dodge_chance = rr.randint(1,4)
-            if dodge_chance == 4:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 60:
-            dodge_chance = rr.randint(1,5)
-            if dodge_chance == 5:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 55:
-            dodge_chance = rr.randint(1,6)
-            if dodge_chance == 6:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 50:
-            dodge_chance = rr.randint(1,7)
-            if dodge_chance == 7:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 45:
-            dodge_chance = rr.randint(1,8)
-            if dodge_chance == 8:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 40:
-            dodge_chance = rr.randint(1,9)
-            if dodge_chance == 9:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 35:
-            dodge_chance = rr.randint(1,10)
-            if dodge_chance == 10:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 30:
-            dodge_chance = rr.randint(1,11)
-            if dodge_chance == 11:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 25:
-            dodge_chance = rr.randint(1,12)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 20:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 15:
-            dodge_chance = rr.randint(1,13)
-            if dodge_chance == 13:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 10:
-            dodge_chance = rr.randint(1,14)
-            if dodge_chance == 12:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        elif self.agility >= 5:
-            dodge_chance = rr.randint(1,15)
-            if dodge_chance == 15:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-        else:
-            dodge_chance = rr.randint(1,20)
-            if dodge_chance == 20:
-                print(f'You dodge the enemies attack, and live to continue fighting')
-            else:
-                self.current_health -= prayer_damage_value
-                print(f"{enemy.name} attacks {self.name} for {prayer_damage_value}")
-    
-    def player_melee_attack(self, enemy, item):
-        if not self.equipped_melee_weapon:
-            print("Not having a melee weapon equipped, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-        else:
-            for item in self.equipped_melee_weapon:
-                pre_attack_value = item.damage_value
-                break
-            if self.luck >= 70:
-                dd = rr.randint(1, 3)
-                if dd == 3:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            elif self.luck >= 60: 
-                dd = rr.randint(1, 5)
-                if dd == 5:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            elif self.luck >= 50: 
-                dd = rr.randint(1, 7)
-                if dd == 7:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            elif self.luck >= 40: 
-                dd = rr.randint(1, 9)
-                if dd == 9:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            elif self.luck >= 30: 
-                dd = rr.randint(1, 11)
-                if dd == 11:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            elif self.luck >= 20: 
-                dd = rr.randint(1, 13)
-                if dd == 13:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-            else: 
-                dd = rr.randint(1, 15)
-                if dd == 15:
-                    print("CRITICAL")
-                    melee_damage_value = pre_attack_value * 10
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-                else:
-                    melee_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {melee_damage_value} damage.")
-                    enemy.ee_take_melee_damage(melee_damage_value)
-        
-    def player_ranged_attack(self, enemy,  item):
-        if not self.equipped_ranged_weapon and self.equipped_ranged_ammo:
-            print("Not having a ranged weapon or ammo equipped, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-        elif not self.ranged_weapon_inventory and item in self.equipped_ranged_ammo:
-            for item in self.equipped_ranged_ammo:
-                pre_attack_value = item.damage_value + self.dexterity + self.strength
-                item.amount -= 1
-                break
-            print("Not having a way to shoot your arrows as the enemy, you rush at the enemy to stab them with one of your arrows, losing one in the process.")
-            if self.luck >= 70:
-                dd = rr.randint(1,3)
-                if dd == 3:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 60:
-                dd = rr.randint(1,5)
-                if dd == 5:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 50:
-                dd = rr.randint(1,7)
-                if dd == 7:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 40:
-                dd = rr.randint(1,9)
-                if dd == 9:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 30:
-                dd = rr.randint(1,11)
-                if dd == 11:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 20:
-                dd = rr.randint(1,13)
-                if dd == 13:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            else:
-                dd = rr.randint(1,15)
-                if dd == 15:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-        elif item in self.equipped_ranged_ammo and item in self.equipped_ranged_weapon:
-            for item in self.equipped_ranged_weapon:
-                damage_value = item.damage_value
-                break
-            for item in self.equipped_ranged_ammo:
-                damage_value2 = item.damage_value
-                break
-            pre_attack_value = damage_value + damage_value2 + self.dexterity + self.strength
-            if self.luck >= 70:
-                dd = rr.randint(1,3)
-                if dd == 3:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 60:
-                dd = rr.randint(1,5)
-                if dd == 5:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 50:
-                dd = rr.randint(1,7)
-                if dd == 7:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 40:
-                dd = rr.randint(1,9)
-                if dd == 9:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 30:
-                dd = rr.randint(1,11)
-                if dd == 11:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            elif self.luck >= 20:
-                dd = rr.randint(1,13)
-                if dd == 13:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-            else:
-                dd = rr.randint(1,15)
-                if dd == 15:
-                    print("CRITICAL")
-                    ranged_damage_value = pre_attack_value * 5
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-                else:
-                    ranged_damage_value = pre_attack_value
-                    print(f"You swing at {enemy.name} for {ranged_damage_value} damage.")
-                    enemy.ee_take_ranged_damage(ranged_damage_value)
-        else: 
-            print("Not having a ranged weapon or ammo equipped, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-    
-    def player_magic_attack(self, enemy, item, magic_damage_value):
-        if not self.equipped_combat_spell and not self.equipped_magic_catalyst:
-            print("Not having a spell or catalyst, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-        elif item in self.equipped_combat_spell and item in self.equipped_magic_catalyst:
-            for item in self.equipped_magic_catalyst:
-                catintreq = item.intelligence_requirement
-                break
-            for item in self.equipped_combat_spell:
-                magic_damage_value = item.damage_value + self.intelligence
-                spellintreq = item.intelligence_requirement
-                spell_name = item.name
-                mana_cost = item.mana_cost
-                break
-            if self.intelligence < spellintreq or catintreq:
-                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
-                melee_damage_value = self.strength
-                enemy.ee_take_melee_damage(melee_damage_value)
-            else:
-                print(f'You shoot the spell, {spell_name}, at the enemy, costing {mana_cost} mana.')
-                self.current_mana -= mana_cost
-                enemy.ee_take_magic_damage(magic_damage_value)
-        elif item in self.equipped_magic_catalyst and not self.equipped_combat_spell:
-            print("Not having a spell, You rush to slam your catalyst agains the enemy.")
-            enemy.ee_take_catalyst_damage()
-        else:
-            print("Missing a requirement, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-    def player_prayer_attack(self, enemy, item, prayer_damage_value):
-        if not self.equipped_combat_prayer and not self.equipped_prayer_catalyst:
-            print("Not having a prayer or catalyst, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-        elif item in self.equipped_prayer_catalyst and item in self.equipped_combat_prayer:
-            for item in self.equipped_prayer_catalyst:
-                catfaireq = item.faith_requirement
-                break
-            for item in self.equipped_combat_prayer:
-                spelfaithreq = item.faith_requirement
-                mana_cost = item.mana_cost
-                prayer_damage_value = item.damage_value + self.faith
-                name = item.name
-                break
-            if self.faith < spelfaithreq or catfaireq:
-                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
-                melee_damage_value = self.strength
-                enemy.ee_take_melee_damage(melee_damage_value)
-            else:
-                print(f'You pray for, {name}, to strike your enemies, in which it does, dealing {prayer_damage_value}, which costs {mana_cost}')
-                self.health -= mana_cost
-                enemy.ee_take_prayer_damage(prayer_damage_value)
-    def use_healing_prayer(self, item, enemy):
-        if not self.equipped_healing_prayer and not self.equipped_prayer_catalyst:
-            print("Not having a spell or catalyst, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-        elif item in self.equipped_healing_prayer and item in self.equipped_prayer_catalyst:
-            for item in self.equipped_prayer_catalyst:
-                faithcatreq = item.faith_requirement
-                break
-            for item in self.equipped_healing_prayer:
-                healing = item.healing_value + self.faith
-                prayfaitrq = item.faith_requirement
-                name = item.name
-            if self.faith < prayfaitrq or faithcatreq:
-                print("Not having the stats for your equipped items, you rush at the enemy with your fists before swinging.")
-                melee_damage_value = self.strength
-                enemy.ee_take_melee_damage(melee_damage_value)
-            else:
-                print(f'You pray for {name}, healing you {healing} health.')
-                self.current_health += healing
-        else:
-            print("Missing a requirement, you rush at the enemy with your fists before swinging.")
-            melee_damage_value = self.strength
-            enemy.ee_take_melee_damage(melee_damage_value)
-    def use_healing_item(self, item):
-        for item in self.healing_item_inventory:
-            print(item)
-        item_choice = input("Which item would you like to use?")
-        if item_choice in self.healing_item_inventory:
-            item.amount -= 1
-            print(f'You use a single {item.name}.')
-            self.current_health += item.healing_amount
-            if item.amount == 0:
-                self.healing_item_inventory.append(item)
-                
-            
-
 
 
             

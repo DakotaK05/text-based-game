@@ -2,59 +2,65 @@ import enemy as ee
 import random as rr
 import item as it
 import character_creator2 as cc
+
 turn_count = 0     
+current_turn = None
+
 
 class Combat:
-
-    def player_turn(player, item, enemy):
-        while True:
-            player_turn_choice = input("""
-1. Melee attack.
-2. Ranged Attack.
-3. Magic Attack
-4. Prayer
-5. Use item
-""")
-            if player_turn_choice == "1":
-                player.player_melee_attack()
+    def check_for_critical():
+        cc = rr.randomint(1,20)
+        if cc == 20:
+            crit = True
+        else:
+            crit = False
+    
+    def check_for_dodge(self):
+        dodge_chance_maxmium = 50.0
+        dodge_chance = self.agility
+        if dodge_chance > dodge_chance_maxmium:
+            dodge_chance = dodge_chance_maxmium
+        dodge_determiner = rr.randint(1, 100)
+        if dodge_chance >= dodge_determiner:
+            dodge = True
+        else:
+            dodge = False
+    
+    def use_item(self):
+        for item in self.healing_item_inventory:
+            healing_value = item.healing_value
+            name = item.name
+            break
+        self.current_health += healing_value
+        item.amount -= 1
+        print(f'{self.name} heals for {healing_value} health, with {name}, using one in the process, leaving {item.amount} left to use/.')
+    
+    def use_item(self):
+        for item in self.healing_item_inventory:
+                healing_value = item.healing_value
+                name = item.name
                 break
-            elif player_turn_choice == "2":
-                player.player_ranged_attack()
-                break
-            elif player_turn_choice == "3":
-                player.player_magic_attack()
-                break
-            elif player_turn_choice == "4":
-                coh = print("1. Combat or 2. Healing")
-                if coh == "1":
-                    player.player_prayer_attack()
-                    break
-                elif coh == "2":
-                    player.use_healing_prayer()
-                    break
-                else:
-                    print("Invalid Input, try again")
-            elif player_turn_choice == "5":
-                coh = print("1. Combat or 2. Healing")
-                if coh == "1":
-                    player.use_combat_item()
-                    break
-                elif coh == "2":
-                    player.use_healing_item()
-                    break
-                else:
-                    print("Invalid Input, try again")
-
+        self.current_health += healing_value
+        item.amount -= 1
+        print(f'{self.name} heals for {healing_value} health, with {name}, using one in the process, leaving {item.amount} left to use/.')
+    
+    def turn(self, target):
+        
         
 
-    def battle_loop(player, enemy, item,):
-        turn_count = 0
-        while player.current_health > 0 and enemy.current_health > 0:
-            turn_count += 1
-            print(turn_count)
-            print("PLAYERS TURN")
-            player.player_turn()
-            print("ENEMYS TURN")
+        pass
+
+    def take_damage(self, damage_value):
+
+        pass
+    
+    def attack(self, attack_type, damage_value):
+        
+        pass
+
+    
+    
+    
 
 
         

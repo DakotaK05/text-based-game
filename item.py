@@ -71,11 +71,3 @@ class Healing_Items:
         self.amount = amount
     def __str__(self):
         return f"{self.name} (Total amount: {self.amount}, Healing Amount: {self.healing_value}, Amount {self.amount})"
-
-class Combat_Items:
-    def __init__(self, item_name, damage_value, amount):
-        self.name = item_name
-        self.damage_value = damage_value
-        self.amount = amount
-    def __str__(self):
-        return f"{self.name} (Damage Value: {self.damage_value}, Amount {self.amount})"
